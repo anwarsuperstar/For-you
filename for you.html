@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A Message from Jaafar</title>
+
+  <style>
+    :root {
+      --pink: #ff5b96;
+      --rose: #d92562;
+      --purple: #7b3fb5;
+      --ink: #421532;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      overflow: hidden;
+      color: var(--ink);
+      font-family: Georgia, "Times New Roman", serif;
+      background: #3f1534;
+    }
+
+    .video-bg {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -3;
+      filter: saturate(.8) blur(1px);
+      transform: scale(1.02);
+    }
+
+    .video-tint {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background: linear-gradient(
+        135deg,
+        rgba(92, 14, 60, .68),
+        rgba(104, 37, 130, .55),
+        rgba(255, 152, 193, .5)
+      );
+    }
+
+    .hearts {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .heart {
+      position: absolute;
+      color: rgba(217, 37, 98, .3);
+      animation: float 9s linear infinite;
+    }
+
+    .heart:nth-child(1) { left: 6%; font-size: 26px; animation-delay: -1s; }
+    .heart:nth-child(2) { left: 19%; font-size: 16px; animation-delay: -6s; }
+    .heart:nth-child(3) { left: 37%; font-size: 34px; animation-delay: -3s; }
+    .heart:nth-child(4) { left: 62%; font-size: 20px; animation-delay: -8s; }
+    .heart:nth-child(5) { left: 78%; font-size: 31px; animation-delay: -4s; }
+    .heart:nth-child(6) { left: 91%; font-size: 18px; animation-delay: -7s; }
+
+    @keyframes float {
+      from { transform: translateY(110vh) rotate(0); opacity: 0; }
+      15% { opacity: 1; }
+      to { transform: translateY(-15vh) rotate(300deg); opacity: 0; }
+    }
+
+    main {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+
+    .card {
+      width: min(680px, 100%);
+      min-height: 570px;
+      padding: 42px 38px 28px;
+      border: 1px solid rgba(255,255,255,.8);
+      border-radius: 32px;
+      background: rgba(255,255,255,.78);
+      box-shadow: 0 20px 60px rgba(25,4,20,.35);
+      backdrop-filter: blur(12px);
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .sender {
+      margin: 0 0 18px;
+      color: var(--rose);
+      font-family: Arial, sans-serif;
+      font-size: .82rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .page {
+      display: none;
+      flex: 1;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      animation: appear .45s ease;
+    }
+
+    .page.active { display: flex; }
+
+    @keyframes appear {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: none; }
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      color: var(--rose);
+      font-size: clamp(2.1rem, 7vw, 4rem);
+      line-height: 1.02;
+    }
+
+    h2 {
+      margin: 0 0 18px;
+      color: var(--purple);
+      font-size: clamp(1.65rem, 5vw, 2.45rem);
+    }
+
+    p {
+      max-width: 540px;
+      margin: 7px auto;
+      font-size: 1.13rem;
+      line-height: 1.65;
+    }
+
+    .big-heart {
+      font-size: clamp(6rem, 20vw, 10rem);
+      filter: drop-shadow(0 12px 12px #e98bad);
+      animation: pulse 1.7s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      50% { transform: scale(1.12); }
+    }
+
+    .tag {
+      margin-top: 19px;
+      padding: 12px 17px;
+      border-radius: 20px;
+      color: #70214a;
+      background: #fff1f7;
+      font-family: Arial, sans-serif;
+      font-size: .94rem;
+    }
+
+    .reasons {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      width: 100%;
+      max-width: 560px;
+    }
+
+    .reason {
+      min-height: 104px;
+      padding: 16px 12px;
+      border-radius: 20px;
+      background: linear-gradient(145deg, #fff, #ffe4f0);
+      box-shadow: 0 8px 16px rgba(139,48,105,.1);
+      font-size: 1rem;
+      display: grid;
+      place-items: center;
+    }
+
+    .reason span {
+      display: block;
+      font-size: 1.8rem;
+      margin-bottom: 5px;
+    }
+
+    .flower-video {
+      width: min(520px, 100%);
+      height: 285px;
+      object-fit: cover;
+      border: 4px solid white;
+      border-radius: 22px;
+      box-shadow: 0 12px 26px rgba(91,19,61,.28);
+    }
+
+    .video-caption {
+      color: var(--rose);
+      font-style: italic;
+      font-size: 1rem;
+    }
+
+    .video-link {
+      color: var(--purple);
+      font-family: Arial, sans-serif;
+      font-size: .86rem;
+    }
+
+    .letter {
+      padding: 22px;
+      border-left: 4px solid var(--pink);
+      border-radius: 0 18px 18px 0;
+      background: #fff8fc;
+      text-align: left;
+    }
+
+    .quiz button {
+      width: min(300px, 100%);
+      margin: 7px;
+      padding: 13px;
+      color: #682047;
+      background: white;
+      border: 1px solid #ffc0d7;
+      border-radius: 14px;
+      cursor: pointer;
+      font: inherit;
+    }
+
+    #quiz-result {
+      min-height: 30px;
+      color: var(--rose);
+      font-weight: bold;
+    }
+
+    .navigation {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .navigation button,
+    .love-back,
+    .music-button {
+      padding: 12px 21px;
+      border: 0;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(120deg, var(--rose), var(--purple));
+      cursor: pointer;
+      font: 600 1rem Arial, sans-serif;
+    }
+
+    .navigation button:disabled {
+      opacity: .35;
+      cursor: not-allowed;
+    }
+
+    .music-button {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 5;
+      font-size: .85rem;
+    }
+
+    .dots {
+      display: flex;
+      justify-content: center;
+      gap: 7px;
+      margin: 14px 0 0;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 99px;
+      background: #edb3ca;
+    }
+
+    .dot.active {
+      width: 24px;
+      background: var(--rose);
+    }
+
+    .final-heart {
+      font-size: 4rem;
+      animation: pulse 1.4s infinite;
+    }
+
+    .confetti {
+      font-size: 1.3rem;
+      letter-spacing: 8px;
+    }
+  </style>
+</head>
+
+<body>
+  <video class="video-bg" autoplay muted loop playsinline>
+    <source src="https://www.pexels.com/download/video/9652731/" type="video/mp4">
+  </video>
+
+  <div class="video-tint"></div>
+
+  <div class="hearts">
+    <i class="heart">♥</i>
+    <i class="heart">♥</i>
+    <i class="heart">♥</i>
+    <i class="heart">♥</i>
+    <i class="heart">♥</i>
+    <i class="heart">♥</i>
+  </div>
+
+  <button class="music-button" id="music" onclick="toggleMusic()">
+    ♫ Play Love Music
+  </button>
+
+  <main>
+    <section class="card">
+      <p class="sender">A special message from Jaafar</p>
+
+      <div class="page active">
+        <div class="big-heart">♥</div>
+        <h1>Hello My Love</h1>
+        <p>This special message is from Jaafar.</p>
+        <p>
+          Jaafar wants you to know that he loves you very much.
+          You are special to him, and he made this page just to make you smile. ❤️
+        </p>
+        <div class="tag">From: Jaafar · Phone: +234 913 729 1139</div>
+      </div>
+
+      <div class="page">
+        <h2>Why You Are Special ✨</h2>
+
+        <div class="reasons">
+          <div class="reason"><span>😊</span>Your beautiful smile</div>
+          <div class="reason"><span>💗</span>Your kind heart</div>
+          <div class="reason"><span>☀️</span>You make days brighter</div>
+          <div class="reason"><span>🌸</span>Every moment with you</div>
+        </div>
+      </div>
+
+      <div class="page">
+        <h2>A Flower for My Love 🌹</h2>
+
+        <video class="flower-video" controls loop playsinline>
+          <source src="https://www.pexels.com/download/video/9652731/" type="video/mp4">
+        </video>
+
+        <p class="video-caption">
+          A little flower, with a lot of love from Jaafar. ❤️
+        </p>
+
+        <a class="video-link"
+           href="https://www.pexels.com/video/a-young-man-giving-a-flower-to-a-young-woman-9652731/"
+           target="_blank">
+          If the video does not load, watch it here
+        </a>
+      </div>
+
+      <div class="page">
+        <h2>A Letter for You 💌</h2>
+
+        <div class="letter">
+          <p>My love,</p>
+          <p>
+            Thank you for being part of my life. You make my days brighter
+            and my heart happier. I hope this little page makes you smile,
+            because your smile means so much to me.
+          </p>
+          <p>With love,<br><strong>Jaafar ❤️</strong></p>
+        </div>
+      </div>
+
+      <div class="page quiz">
+        <h2>A Little Love Quiz 💘</h2>
+        <p>What does Jaafar want most when you see this page?</p>
+
+        <button onclick="answer(false)">For you to feel sad</button>
+        <button onclick="answer(true)">For you to smile ❤️</button>
+        <button onclick="answer(false)">For you to be bored</button>
+
+        <p id="quiz-result"></p>
+      </div>
+
+      <div class="page">
+        <div class="confetti">♥ ✦ ♥ ✦ ♥</div>
+        <div class="final-heart">❤️</div>
+        <h1>I Love You</h1>
+        <p>Forever sending you love, smiles, and beautiful thoughts.</p>
+
+        <button class="love-back"
+          onclick="alert('Your love has been sent back to Jaafar! ❤️')">
+          Send Love Back
+        </button>
+      </div>
+
+      <div class="navigation">
+        <button id="prev" onclick="changePage(-1)">← Previous</button>
+        <button id="next" onclick="changePage(1)">Next →</button>
+      </div>
+
+      <div class="dots"></div>
+    </section>
+  </main>
+
+  <script>
+    let current = 0;
+
+    const pages = [...document.querySelectorAll(".page")];
+    const dots = document.querySelector(".dots");
+
+    pages.forEach(() => {
+      const dot = document.createElement("span");
+      dot.className = "dot";
+      dots.appendChild(dot);
+    });
+
+    function showPage() {
+      pages.forEach((page, index) => {
+        page.classList.toggle("active", index === current);
+      });
+
+      document.querySelectorAll(".dot").forEach((dot, index) => {
+        dot.classList.toggle("active", index === current);
+      });
+
+      document.getElementById("prev").disabled = current === 0;
+      document.getElementById("next").disabled = current === pages.length - 1;
+    }
+
+    function changePage(amount) {
+      current = Math.max(0, Math.min(pages.length - 1, current + amount));
+      showPage();
+    }
+
+    function answer(correct) {
+      document.getElementById("quiz-result").textContent = correct
+        ? "Correct! Jaafar wants to see your beautiful smile! ❤️"
+        : "Try again, my love!";
+    }
+
+    let audioContext;
+    let musicTimer;
+    let musicOn = false;
+
+    const melody = [
+      261.63, 329.63, 392.00, 523.25,
+      392.00, 329.63, 293.66, 349.23,
+      440.00, 587.33, 440.00, 349.23
+    ];
+
+    function playNote(freq, start) {
+      const oscillator = audioContext.createOscillator();
+      const gain = audioContext.createGain();
+
+      oscillator.type = "sine";
+      oscillator.frequency.value = freq;
+
+      gain.gain.setValueAtTime(.0001, start);
+      gain.gain.exponentialRampToValueAtTime(.07, start + .08);
+      gain.gain.exponentialRampToValueAtTime(.0001, start + .62);
+
+      oscillator.connect(gain).connect(audioContext.destination);
+      oscillator.start(start);
+      oscillator.stop(start + .65);
+    }
+
+    function playMelody() {
+      const now = audioContext.currentTime + .05;
+
+      melody.forEach((note, index) => {
+        playNote(note, now + index * .68);
+      });
+
+      musicTimer = setTimeout(playMelody, melody.length * 680);
+    }
+
+    function toggleMusic() {
+      const button = document.getElementById("music");
+
+      if (!musicOn) {
+        audioContext = audioContext ||
+          new (window.AudioContext || window.webkitAudioContext)();
+
+        audioContext.resume();
+        musicOn = true;
+        button.textContent = "♫ Pause Love Music";
+        playMelody();
+      } else {
+        clearTimeout(musicTimer);
+        musicOn = false;
+        button.textContent = "♫ Play Love Music";
+      }
+    }
+
+    showPage();
+  </script>
+</body>
+</html>
